@@ -1,0 +1,100 @@
+<ion-view title="{selectedShul}" id="page19">
+  <ion-content padding="false" class="has-header">
+    <creator-map-component options="{}" marker="true" location="Madison Capital" zoom="12" style="display:block;position:relative;width:100%;height:150px;">
+      <ui-gmap-google-map ng-if="map.center" center="map.center" zoom="map.zoom" options="map.options">
+        <ui-gmap-marker coords="map.marker.coords" idkey="map.marker.id" options="map.marker.options"></ui-gmap-marker>
+      </ui-gmap-google-map>
+    </creator-map-component>
+    <div class="list card padding" id="SelectedShul-card21">
+      <div id="SelectedShul-container41">
+        <h3 id="SelectedShul-heading1" style="color:#000000;">{selectedShul}</h3>
+        <div id="SelectedShul-markdown10" class="show-list-numbers-and-dots">
+          <p style="color:#000000;">{nusach}</p>
+
+          <p style="color:#000000;">{address}</p>
+
+          <p style="color:#000000;">{phone}</p>
+
+          <p style="color:#000000;">{website}</p>
+
+          <p style="color:#000000;">{email}</p>
+
+          <p style="color:#000000;">{rabbi}</p>
+        </div>
+      </div>
+    </div>
+    <div class="list card" id="SelectedShul-card22">
+      <div id="SelectedShul-button-bar17" class="button-bar">
+        <button id="SelectedShul-button57" class="button button-light button-block icon ion-map"></button>
+        <button id="SelectedShul-button58" class="button button-light button-block icon ion-ios-telephone"></button>
+        <button id="SelectedShul-button59" class="button button-light button-block icon ion-android-globe"></button>
+        <button id="SelectedShul-button60" class="button button-light button-block icon ion-android-share-alt"></button>
+      </div>
+    </div>
+    <div class="list card padding" id="SelectedShul-card23">
+      <div>
+        <table style="border-collapse: collapse; width: 100%; height: 152px;" border="1">
+          <tbody>
+            <tr style="height: 30px;">
+              <td style="width: 25%; text-align: center; height: 26px;">
+                <strong>Day</strong>
+              </td>
+              <td style="width: 25%; text-align: center; height: 26px;">
+                <strong>Shacharit</strong>
+              </td>
+              <td style="width: 25%; text-align: center; height: 26px;">
+                <strong>Mincha</strong>
+              </td>
+              <td style="width: 25%; text-align: center; height: 26px;">
+                <strong>Arvit</strong>
+              </td>
+            </tr>
+            <tr style="height: 30px;">
+              <td style="width: 25%; height: 18px; padding-left: 40px;">Sunday</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+            </tr>
+            <tr style="height: 30px;">
+              <td style="width: 25%; height: 18px; padding-left: 40px;">Monday</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+            </tr>
+            <tr style="height: 30px;">
+              <td style="width: 25%; height: 18px; padding-left: 40px;">Tuesday</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+            </tr>
+            <tr style="height: 30px;">
+              <td style="width: 25%; height: 18px; padding-left: 40px;">Wednesday</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+            </tr>
+            <tr style="height: 30px;">
+              <td style="width: 25%; height: 18px; padding-left: 40px;">Thursday</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+            </tr>
+            <tr style="height: 30px;">
+              <td style="width: 25%; height: 18px; padding-left: 40px;">Friday</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+            </tr>
+            <tr style="height: 30px;">
+              <td style="width: 25%; height: 18px; padding-left: 40px;">Saturday</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+              <td style="width: 25%; height: 18px;">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>&nbsp;</p>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

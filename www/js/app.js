@@ -5,85 +5,81 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services'])
+
+.config(function($ionicConfigProvider, $sceDelegateProvider){
+    $ionicConfigProvider.backButton.text('').previousTitleText(false);
+
+  $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
+
+  
+})
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs).
-    // The reason we default this to hidden is that native apps don't usually show an accessory bar, at
-    // least on iOS. It's a dead giveaway that an app is using a Web View. However, it's sometimes
-    // useful especially with forms, though we would prefer giving the user a little more room
-    // to interact with the app.
-    if (window.cordova && window.Keyboard) {
-      window.Keyboard.hideKeyboardAccessoryBar(true);
+    // for form inputs)
+    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.plugins.Keyboard.disableScroll(true);
     }
-
     if (window.StatusBar) {
-      // Set the statusbar to use the default style, tweak this to
-      // remove the status bar on iOS or change it to use white instead of dark colors.
+      // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+/*
+  This directive is used to disable the "drag to open" functionality of the Side-Menu
+  when you are dragging a Slider component.
+*/
+.directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function($ionicSideMenuDelegate, $rootScope) {
+    return {
+        restrict: "A",
+        controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
-  $stateProvider
+            function stopDrag(){
+              $ionicSideMenuDelegate.canDragContent(false);
+            }
 
-  // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: '/tab',
-    abstract: true,
-    templateUrl: 'templates/tabs.html'
-  })
+            function allowDrag(){
+              $ionicSideMenuDelegate.canDragContent(true);
+            }
 
-  // Each tab has its own nav history stack:
+            $rootScope.$on('$ionicSlides.slideChangeEnd', allowDrag);
+            $element.on('touchstart', stopDrag);
+            $element.on('touchend', allowDrag);
+            $element.on('mousedown', stopDrag);
+            $element.on('mouseup', allowDrag);
 
-  .state('tab.dash', {
-    url: '/dash',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
+        }]
+    };
+}])
+
+/*
+  This directive is used to open regular and dynamic href links inside of inappbrowser.
+*/
+.directive('hrefInappbrowser', function() {
+  return {
+    restrict: 'A',
+    replace: false,
+    transclude: false,
+    link: function(scope, element, attrs) {
+      var href = attrs['hrefInappbrowser'];
+
+      attrs.$observe('hrefInappbrowser', function(val){
+        href = val;
+      });
+
+      element.bind('click', function (event) {
+
+        window.open(href, '_system', 'location=yes');
+
+        event.preventDefault();
+        event.stopPropagation();
+
+      });
     }
-  })
-
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  });
-
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
-
+  };
 });
