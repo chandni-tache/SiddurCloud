@@ -61,14 +61,14 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('shulDetail', {
-    url: '/shulDetail/:id',
+  .state('SelectedShul', {
+    url: '/page19',
     templateUrl: 'templates/SelectedShul.html',
     controller: 'SelectedShulCtrl',
-    params: {
-      id: null
-    }}
-  )
+    params:{
+      id:null
+    }
+  })
 
   .state('siddurCloud.sefaria', {
     url: '/sefaria',

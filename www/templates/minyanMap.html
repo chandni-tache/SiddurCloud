@@ -17,7 +17,7 @@
       </ui-gmap-google-map>
     </creator-map-component>
     <ion-list id="minyanMap-list12" ng-repeat="shul in shulData.shuls">
-      <ion-item class="item-icon-right" id="minyanMap-list-item47" ui-sref="shulDetail({id:shul.id})">
+      <ion-item class="item-icon-right" id="minyanMap-list-item47" ui-sref="SelectedShul({id:shul.id})">
         <ion-label class="capitalizeFirst">{{shul.name}}</ion-label>
         {{shul.address}} {{shul.city}} {{shul.city}} {{shul.state}} {{shul.zipcode}}
         <div ng-if="shul.nextMinyan">

@@ -46,7 +46,7 @@ function ($scope, $stateParams) {
 .controller('minyanMapCtrl', ['$scope', '$stateParams', 'ApiService','$state',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, ApiService, $cordovaGeolocation, $state) {
+function ($scope, $stateParams, ApiService, $state) {
 
 var Config = {
     BASE_URL:'https://www.godaven.com/api/V1/shuls/radius-search',
@@ -72,17 +72,21 @@ function getDefaultList(){
 .controller('SelectedShulCtrl', ['$scope', '$stateParams','ApiService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, ApiService) {
+function ($scope, $stateParams,ApiService) {
 
   console.log($stateParams.id);
   $scope.shulDetail ={};
+  $scope.groupedContacts ={};
+  $scope.groupedByDayMinyanim={};
 
-  var URL = "https://www.godaven.com/api/V1/shuls/298/details";
+  var URL = "https://www.godaven.com/api/V1/shuls/"+$stateParams.id+"/details";
 
   ApiService.getRequest(URL).then(function(res) {
     console.log(res);
     $scope.shulDetail = res;
-    console.log($scope.shulDetail.name);
+    $scope.groupedContacts = res.groupedContacts;
+    $scope.groupedByDayMinyanim = res.groupedByDayMinyanim;
+    console.log($scope.groupedContacts);
   }).catch(function(err){
     console.log(err);
   })
@@ -94,7 +98,7 @@ function ($scope, $stateParams, ApiService) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-  var URL = "https://www.godaven.com/api/V1/shuls/298/details";
+
 
 }])
 
