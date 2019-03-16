@@ -1,11 +1,11 @@
-<ion-view title="{{shulDetail.name}}" id="page19">
+<ion-view class="capitalize" title="{{shulDetail.name}}" id="page19">
   <ion-content padding="false" class="has-header">
 
     <div class="list card padding" id="SelectedShul-card21">
       <div id="SelectedShul-container41">
-        <h3 id="SelectedShul-heading1" style="color:#000000;">{{shulDetail.name}}</h3>
+        <h3 id="SelectedShul-heading1" class="capitalize" style="color:#000000;">{{shulDetail.name}}</h3>
         <div id="SelectedShul-markdown10" class="show-list-numbers-and-dots">
-          <p style="color:#000000;">{{shulDetail.shul_nusach}}</p>
+          <p style="color:#000000;" class="capitalize">{{shulDetail.shul_nusach}}</p>
 
           <p style="color:#000000;">{{shulDetail.formatted_address}}</p>
 
@@ -15,7 +15,7 @@
 
           <p style="color:#000000;">{{groupedContacts.shulInfo.contact_emails[0].email}}</p>
 
-          <p style="color:#000000;"><strong>{{groupedContacts.rabbi[0].title}} {{groupedContacts.rabbi[0].first_name}} {{groupedContacts.rabbi[0].last_name}}</strong>
+          <p style="color:#000000;" class="capitalize"><strong>{{groupedContacts.rabbi[0].title}} {{groupedContacts.rabbi[0].first_name}} {{groupedContacts.rabbi[0].last_name}}</strong>
           {{groupedContacts.rabbi[0].minyan_role}}</p>
         </div>
       </div>
