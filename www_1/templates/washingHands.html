@@ -1,0 +1,37 @@
+<ion-view title="Washing Hands" id="page13">
+  <ion-content padding="true" class="has-header">
+    <div id="washingHands-button-bar7" class="button-bar languageBar">
+      <button id="washingHands-button21" ng-class="{'active': activeLanguage==1}" ng-click="changeLanguage(1)" style="border-radius:0px 0px 0px 0px;" class="button button-positive button-outline">Translit</button>
+      <button id="washingHands-button22" ng-class="{'active': activeLanguage==2}" ng-click="changeLanguage(2)" style="border-radius:0px 0px 0px 0px;" class="button button-positive button-outline">English</button>
+      <button id="washingHands-button23" ng-class="{'active': activeLanguage==3}" ng-click="changeLanguage(3)" style="border-radius:0px 0px 0px 0px;" class="button button-positive button-outline">Hebrew</button>
+    </div>
+    <div class="spacer" style="height: 11px;"></div>
+    <div>
+      <p style="text-align: justify;">
+        <span style="color: #808080;">Bread has the special requirement that we ritually wash our hands before partaking of it. Fill a large cup with water and pour it three times over your right hand, then three times over the left. Lift your hands and rub them together, and recite
+          the blessing.</span>
+      </p>
+      <p style="text-align: justify;">
+        <span style="color: #808080;">After the blessing, dry hands thoroughly.</span>
+      </p>
+      <p style="text-align: justify;">
+        <span style="color: #808080;">
+          <strong>Blessing Over Washing the Hands:</strong>
+        </span>
+      </p>
+    </div>
+    <div class="spacer" style="width: 300px; height: 11px;"></div>
+    <div id="washingHands-container14" ng-show="activeLanguage==2">
+      <div>Blessed are You L-rd our G‑d King of the universe Who has sanctified us with his commandments and commanded us on the washing of the hands.</div>
+    </div>
+    <div id="washingHands-container15" ng-show="activeLanguage==1">
+      <div>Baruch atah A-donay, Elo-heinu Melech Ha’Olam, asher kideshanu bemitzvotav vetzivanu al netilat yadayim.</div>
+    </div>
+    <div id="washingHands-container16" ng-show="activeLanguage==3">
+      <div>
+        <p dir="rtl" style="text-align: right;" align="center">בָּרוּךְ אַתָּה יְ‑יָ אֱ‑לֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו, וְצִוָּנוּ עַל נְטִילַת יָדָים:</p>
+        <p dir="rtl" style="text-align: right;">&nbsp;</p>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

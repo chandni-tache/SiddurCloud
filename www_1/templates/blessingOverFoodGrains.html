@@ -1,0 +1,33 @@
+<ion-view title="Blessing Over Food Grains" id="page23">
+  <ion-content padding="true" class="has-header">
+    <div id="blessingOverFoodGrains-button-bar9" class="button-bar languageBar">
+      <button id="blessingOverFoodGrains-button27" ng-class="{'active': activeLanguage==1}" ng-click="changeLanguage(1)" style="border-radius:0px 0px 0px 0px;" class="button button-positive button-outline">Translit</button>
+      <button id="blessingOverFoodGrains-button28" ng-class="{'active': activeLanguage==2}" ng-click="changeLanguage(2)" style="border-radius:0px 0px 0px 0px;" class="button button-positive button-outline">English</button>
+      <button id="blessingOverFoodGrains-button29" ng-class="{'active': activeLanguage==3}" ng-click="changeLanguage(3)" style="border-radius:0px 0px 0px 0px;" class="button button-positive button-outline">Hebrew</button>
+    </div>
+    <div class="spacer" style="height: 11px;"></div>
+    <div>
+      <p style="text-align: justify;">
+        <span style="color: #808080;">Food that is made from grain (wheat, barley, rye, spelt or oat) but is not bread gets the blessing mezonot. This includes cakes and pastries, most crackers and cereals, pasta and other cooked grain products like farfel and couscous.</span>
+      </p>
+      <p style="text-align: justify;">
+        <span style="color: #808080;">After eating Mezonot, say Al Hamichyah, the After-Blessing on the Five Grains</span>
+      </p>
+      <p style="text-align: justify;">
+        <span style="color: #808080;">
+          <strong>Blessing Over Food Grains:</strong>
+        </span>
+      </p>
+    </div>
+    <div class="spacer" style="width: 300px; height: 11px;"></div>
+    <div id="blessingOverFoodGrains-container20" ng-show="activeLanguage==2">
+      <div>Blessed are you L-rd our G‑d, King of the Universe, Who creates various kinds of sustenance.</div>
+    </div>
+    <div id="blessingOverFoodGrains-container21" ng-show="activeLanguage==1">
+      <div>Baruch atah A-donay, Elo-heinu Melech Ha’Olam borei minei mezonot.</div>
+    </div>
+    <div id="blessingOverFoodGrains-container22" ng-show="activeLanguage==3">
+      <p dir="rtl">בָּרוּךְ אַתָּה יְ‑יָ אֱ‑לֹהֵינוּ מֶלֶךְ הָעוֹלָם בּוֹרֵא מִינֵי מְזוֹנוֹת:</p>
+    </div>
+  </ion-content>
+</ion-view>

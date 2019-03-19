@@ -16,24 +16,43 @@
 
 
        <div style="  height: 300px;
-    width: 600px;
+    width: 100%;
     background-color: #CCC;" id="map-canvas"></div>
 
-    <div ng-if="shulData.total==0">
+    <div class="cardView" ng-if="shulData.total==0">
       No Minyan Found for the selected location.
     </div>
+<div class="container">
+    <div class="row">
+      <div class="pagination">
+  <a href="#">&laquo;</a>
+  <a href="#">1</a>
+  <a href="#">2</a>
+  <a href="#">3</a>
+  <a href="#">4</a>
+  <a href="#">5</a>
+  <a href="#">6</a>
+  <a href="#">&raquo;</a>
+</div>
+    </div>
+</div>
+    <!-- pager -->
+
+
+
+
 
     <ion-list id="minyanMap-list12" ng-repeat="shul in shulData.shuls">
-      <ion-item class="item-icon-right" id="minyanMap-list-item47" ui-sref="SelectedShul({id:shul.id})">
-        <ion-label class="capitalize">{{shul.name}}</ion-label>
-        {{shul.address}} {{shul.city}} {{shul.city}} {{shul.state}} {{shul.zipcode}}
+      <ion-item class="item-icon-right" id="minyanMap-list-item47" ui-sref="siddurCloud.SelectedShul({id:shul.id})">
+        <h3 class="capitalize">{{shul.name}}</h3>
+        <p>{{shul.formatted_address}}</p>
         <div ng-if="shul.nextMinyan">
-          {{shul.nextMinyan.type}} {{shul.nextMinyan.time}}
+          <span class="minyanFound">{{shul.nextMinyan.type}} {{shul.nextMinyan.time}}</span>
         </div>
         <div ng-if="!shul.nextMinyan">
-            No Upcoming minyan today
+            <span class="noMinyanFound">No Upcoming minyan today</span>
         </div>
-        <i class="icon ion-ios-arrow-right icon-accessory"></i>
+        <i class="icon ion-ios-arrow-right icon-accessory right-arrow"></i>
 
       </ion-item>
     </ion-list>

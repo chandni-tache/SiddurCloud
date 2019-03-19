@@ -1,4 +1,4 @@
-<ion-view class="capitalize" title="{{shulDetail.name}}" id="page19">
+<ion-view class="toupper" title="{{shulDetail.name}}" id="page19">
   <ion-content padding="false" class="has-header">
 
     <div class="list card padding" id="SelectedShul-card21">
@@ -22,84 +22,85 @@
     </div>
     <div class="list card" id="SelectedShul-card22">
       <div id="SelectedShul-button-bar17" class="button-bar">
-        <button id="SelectedShul-button57" class="button button-light button-block icon ion-map"></button>
-        <button id="SelectedShul-button58" class="button button-light button-block icon ion-ios-telephone"></button>
-        <button id="SelectedShul-button59" class="button button-light button-block icon ion-android-globe"></button>
-        <button id="SelectedShul-button60" class="button button-light button-block icon ion-android-share-alt"></button>
+        <button id="SelectedShul-button57" ng-click="openmap()"  class="button button-light button-block icon ion-map"></button>
+
+        <a id="SelectedShul-button58" class="button button-light button-block icon ion-ios-telephone" href="tel://{{groupedContacts.shulInfo.contact_phones[0].number}}"></a>
+        <button ng-click="opencustomurldetails()"  id="SelectedShul-button59" class="button button-light button-block icon ion-android-globe"></button>
+        <button ng-click="shareurl()"  id="SelectedShul-button60" class="button button-light button-block icon ion-android-share-alt"></button>
       </div>
     </div>
     <div class="list card padding" id="SelectedShul-card23">
       <div>
-        <table style="border-collapse: collapse; width: 100%; height: 152px;" border="1">
+        <table style="border-collapse: collapse; width: 100%; height: 152px;" class="table" border="1">
           <tbody>
-            <tr style="height: 30px;">
-              <td style="width: 25%; text-align: center; height: 26px;">
+            <tr >
+              <td >
                 <strong>Day</strong>
               </td>
-              <td style="width: 25%; text-align: center; height: 26px;">
+              <td >
                 <strong>Shacharit</strong>
               </td>
-              <td style="width: 25%; text-align: center; height: 26px;">
+              <td >
                 <strong>Mincha</strong>
               </td>
-              <td style="width: 25%; text-align: center; height: 26px;">
+              <td >
                 <strong>Arvit</strong>
               </td>
             </tr>
-            <tr style="height: 30px;">
-              <td style="width: 25%; height: 18px; padding-left: 40px;">Sunday</td>
-              <td style="width: 25%; height: 18px;">
+            <tr>
+              <td >Sunday</td>
+              <td >
                 <p ng-repeat="shachris in groupedByDayMinyanim.sun.shachris">
                   {{shachris.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mincha in groupedByDayMinyanim.sun.mincha">
                   {{mincha.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mariv in groupedByDayMinyanim.sun.mariv">
                 {{mariv.todays_time}}
               </p></td>
             </tr>
-            <tr style="height: 30px;">
-              <td style="width: 25%; height: 18px; padding-left: 40px;">Monday</td>
-              <td style="width: 25%; height: 18px;">
+            <tr >
+              <td >Monday</td>
+              <td >
                 <p ng-repeat="shachris in groupedByDayMinyanim.mon.shachris">
                   {{shachris.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mincha in groupedByDayMinyanim.mon.mincha">
                   {{mincha.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mariv in groupedByDayMinyanim.mon.mariv">
                 {{mariv.todays_time}}
               </p></td>
             </tr>
-            <tr style="height: 30px;">
-              <td style="width: 25%; height: 18px; padding-left: 40px;">Tuesday</td>
-              <td style="width: 25%; height: 18px;">
+            <tr >
+              <td >Tuesday</td>
+              <td >
                 <p ng-repeat="shachris in groupedByDayMinyanim.tues.shachris">
                   {{shachris.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mincha in groupedByDayMinyanim.tues.mincha">
                   {{mincha.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mariv in groupedByDayMinyanim.tues.mariv">
                 {{mariv.todays_time}}
               </p></td>
             </tr>
-            <tr style="height: 30px;">
-              <td style="width: 25%; height: 18px; padding-left: 40px;">Wednesday</td>
-              <td style="width: 25%; height: 18px;">
+            <tr >
+              <td >Wednesday</td>
+              <td >
                 <p ng-repeat="shachris in groupedByDayMinyanim.wed.shachris">
                   {{shachris.todays_time}}
                 </p>
@@ -114,60 +115,59 @@
                 {{mariv.todays_time}}
               </p></td>
             </tr>
-            <tr style="height: 30px;">
-              <td style="width: 25%; height: 18px; padding-left: 40px;">Thursday</td>
-              <td style="width: 25%; height: 18px;">
+            <tr   >
+              <td >Thursday</td>
+              <td >
                 <p ng-repeat="shachris in groupedByDayMinyanim.thurs.shachris">
                   {{shachris.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mincha in groupedByDayMinyanim.thurs.mincha">
                   {{mincha.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mariv in groupedByDayMinyanim.thurs.mariv">
                 {{mariv.todays_time}}
               </p></td>
             </tr>
-            <tr style="height: 30px;">
-              <td style="width: 25%; height: 18px; padding-left: 40px;">Friday</td>
-              <td style="width: 25%; height: 18px;">
+            <tr >
+              <td >Friday</td>
+              <td >
                 <p ng-repeat="shachris in groupedByDayMinyanim.fri.shachris">
                   {{shachris.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mincha in groupedByDayMinyanim.fri.mincha">
                   {{mincha.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mariv in groupedByDayMinyanim.fri.mariv">
                 {{mariv.todays_time}}
               </p></td>
             </tr>
-            <tr style="height: 30px;">
-              <td style="width: 25%; height: 18px; padding-left: 40px;">Saturday</td>
-              <td style="width: 25%; height: 18px;">
+            <tr >
+              <td >Saturday</td>
+              <td >
                 <p ng-repeat="shachris in groupedByDayMinyanim.sat.shachris">
                   {{shachris.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mincha in groupedByDayMinyanim.sat.mincha">
                   {{mincha.todays_time}}
                 </p>
               </td>
-              <td style="width: 25%; height: 18px;">
+              <td >
                 <p ng-repeat="mariv in groupedByDayMinyanim.sat.mariv">
                 {{mariv.todays_time}}
               </p></td>
             </tr>
           </tbody>
         </table>
-        <p>&nbsp;</p>
       </div>
     </div>
   </ion-content>

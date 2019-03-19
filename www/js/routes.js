@@ -61,12 +61,27 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('SelectedShul', {
-    url: '/page19',
-    templateUrl: 'templates/SelectedShul.html',
-    controller: 'SelectedShulCtrl',
-    params:{
-      id:null
+  // .state('SelectedShul', {
+  //   url: '/page19',
+  //   templateUrl: 'templates/SelectedShul.html',
+  //   controller: 'SelectedShulCtrl',
+  //   params:{
+  //     id:null
+  //   }
+  // })
+
+  .state('siddurCloud.SelectedShul', {
+
+
+
+     url: '/shulDetail  /:id',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/SelectedShul.html',
+        controller: 'SelectedShulCtrl'
+
+
+      }
     }
   })
 
