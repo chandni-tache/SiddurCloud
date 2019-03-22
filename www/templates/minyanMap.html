@@ -1,4 +1,5 @@
 <ion-view title="Minyan Map" id="page8" >
+
   <ion-nav-buttons side="right" class="has-header">
     <button class="button button-positive icon No Icon" ng-click="opencustomurl()"> Add Shul</button>
   </ion-nav-buttons>
@@ -22,24 +23,9 @@
     <div class="cardView" ng-if="shulData.total==0">
       No Minyan Found for the selected location.
     </div>
-<div class="container">
-    <div class="row">
-      <div class="pagination">
-  <a href="#">&laquo;</a>
-  <a href="#">1</a>
-  <a href="#">2</a>
-  <a href="#">3</a>
-  <a href="#">4</a>
-  <a href="#">5</a>
-  <a href="#">6</a>
-  <a href="#">&raquo;</a>
-</div>
-    </div>
-</div>
-    <!-- pager -->
 
 
-
+    <ion-spinner name="crescent"  ng-if="loading" >Loading</ion-spinner>
 
 
     <ion-list id="minyanMap-list12" ng-repeat="shul in shulData.shuls">
@@ -56,6 +42,11 @@
 
       </ion-item>
     </ion-list>
+    <div class="pagination" ng-if="!loading">
+      <a >&laquo;</a>
+      <button ng-repeat="(key, value) in pageinationlen track by $index" ng-class="{'active':currentPage == $index+1}" ng-click="getDefaultList({{$index+1}})">{{$index+1}} </button>
+      <a >&raquo;</a>
+  </div>
 
   </ion-content>
 </ion-view>

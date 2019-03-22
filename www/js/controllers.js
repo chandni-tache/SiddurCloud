@@ -1,4 +1,4 @@
-angular.module('app.controllers', [])
+angular.module('app.controllers', ['ionic'])
 
     .controller('siddurBlessingsCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
         // You can include any angular dependencies as parameters for this function
@@ -43,15 +43,14 @@ angular.module('app.controllers', [])
           $scope.prayerMode = true;
           $scope.prayerData = {};
 
+          $scope.loading = true;
 
-
-          console.log(new Date());
           $scope.prayerDate= new Date();
 
           var url = "https://wyrezmanim.herokuapp.com/api/zmanim?timezone=America/New_York&latitude=40&longitude=-73&date=4/2/2018&elevation=50&format=json&mode=basic";
 
           var BASE_URL = "https://wyrezmanim.herokuapp.com/api/zmanim?timezone=America/New_York&elevation=50&format=json";
-          var DEFAULT_PARAMS="&latitude=40&longitude=-73&mode=";
+          var DEFAULT_PARAMS="&latitude=40.7127753&longitude=-74.0059728&mode=basic";
 
           var input = document.getElementById('searchTextField');
 
@@ -71,19 +70,26 @@ angular.module('app.controllers', [])
 
           });
 
-
+            //call api on the basis of selected filters
             $scope.search = function() {
-                console.log($scope.prayerMode);
-                console.log($scope.prayerDate);
-                console.log($scope.params);
                 $scope.params.date = $scope.prayerDate;
                 $scope.params.mode= $scope.prayerMode;
 
                 $scope.loadPrayerData($scope.params);
-
-
             }
 
+            //checks the mode selection and set prayerMode variable accordingly
+            $scope.datachange = function(ss) {
+
+                    if ($scope.prayerMode == false) {
+                        $scope.prayerMode = true;
+                    } else
+                        $scope.prayerMode = false;
+            };
+
+
+
+            //clear all the filter and call api for default
             $scope.clear = function() {
                 document.getElementById('searchTextField').value ='';
                 $scope.prayerDate = '';
@@ -93,30 +99,35 @@ angular.module('app.controllers', [])
                 $scope.callService(BASE_URL+DEFAULT_PARAMS);
             }
 
-
+            //Api Call
             $scope.callService = function(url){
               ApiService.getRequest(url).then(function(res) {
                   console.log(res);
                   $scope.prayerData = res;
+                    $scope.loading= false;
               }).catch(function(err) {
                   console.log(err);
+                  $scope.loading= false;
               })
             }
 
+            //set parameters for filters data and call API
             $scope.loadPrayerData= function(params){
+              $scope.loading= true;
 
-              console.log(params);
-              console.log($scope.prayerMode);
+              if(params.lat==undefined){
+                params.lat=40.7127753;
+                params.long=-74.0059728;
+              }
               var mode ="";
               if(params.mode){
-                mode="Basic";
+                mode="basic";
               }
               else {
                 mode="";
               }
               var PARAMS = "&date="+params.date+"&latitude="+params.lat+"&longitude="+params.long+"&mode="+mode;
-              console.log(BASE_URL+PARAMS);
-              $scope.callService(BASE_URL+PARAMS);
+             $scope.callService(BASE_URL+PARAMS);
 
             }
 
@@ -134,28 +145,69 @@ angular.module('app.controllers', [])
         }
     ])
 
-    .controller('minyanMapCtrl', ['$scope', '$stateParams', 'ApiService', '$state','PagerService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+    .controller('minyanMapCtrl', ['$scope', '$stateParams', 'ApiService','$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
         // You can include any angular dependencies as parameters for this function
         // TIP: Access Route Parameters for your page via $stateParams.parameterName
-        function($scope, $stateParams, ApiService, $cordovaGeolocation, $state,PagerService) {
+        function($scope, $stateParams, ApiService, $cordovaGeolocation, $state,$ionicLoading) {
 
-          $scope.currentPage=1;
-
-            var Config = {
+                $scope.loading=true;
+                $scope.currentPage=1;
+                var globalat;
+                var gloabalong;
+                var Config = {
                 BASE_URL: 'https://www.godaven.com/api/V1/shuls/radius-search',
-            }
-
+                }
 
             $scope.shulData = [];
-            getDefaultList('40.718106', '-73.8448469');
+
             //ADDITIONAL_URL="?lat=40.718106&lng=-73.8448469&distance=5&pagenumber=1&nusach=&tefillah=&day=&current_time=13:43&todays_day=3"
-            function getDefaultList(lat, lng) {
-                var DEFAULT_URL = '?lat=' + lat + '&lng=' + lng + '&distance=5&nusach=&tefillah=&day=&current_time=13:43&todays_day=3'
+             $scope.getDefaultList=function (pagno) {
+               $scope.loading=true;
+               $scope.currentPage=pagno;
+
+                var DEFAULT_URL = '?lat=' + globalat + '&lng=' + gloabalong + '&distance=5&nusach=&tefillah=&day=&current_time=13:43&todays_day=3&pagenumber='+pagno;
+                console.log(DEFAULT_URL)
                 ApiService.getRequest(Config.BASE_URL + DEFAULT_URL).then(function(res) {
                     console.log(res.total);
                     $scope.shulData = res;
+                    var pagearr=[];
+                    pagearr.length= $scope.shulData.num_of_pages
+                    $scope.pageinationlen=pagearr;
+                    $scope.loading=false;
+
+
+
+                    var myLatLng = new google.maps.LatLng(res.shuls[0].location_point.coordinates[1], res.shuls[0].location_point.coordinates[0]),
+                    myOptions = {
+
+                        zoom: 14,
+                        center: myLatLng,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        panControl: false,
+                        zoomControl: false,
+                        scaleControl: false,
+                        mapTypeControl: false,
+                        streetViewControl: false,
+                        defaultStyle: true
+                    };
+                    var   map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+
+                      var marker, i;
+                      setTimeout(function(){
+                      for (i = 0; i < res.shuls.length; i++) {
+                        marker = new google.maps.Marker({
+                          position: new google.maps.LatLng(res.shuls[i].location_point.coordinates[1], res.shuls[i].location_point.coordinates[0]),
+                          map: map
+                        });
+
+
+                      }
+                       }, 300);
+
+
                 }).catch(function(err) {
                     console.log(err);
+                    $scope.loading=false;
                 })
 
             }
@@ -167,13 +219,6 @@ angular.module('app.controllers', [])
                 new google.maps.LatLng(-33.8474, 151.2631));
 
 
-            // var options = {
-            //   // bounds: defaultBounds,
-            //   types: ['establishment']
-            // };
-
-            // autocomplete = new google.maps.places.Autocomplete(input, options);
-
             var options = {};
             var autocomplete = new google.maps.places.Autocomplete(input, options);
 
@@ -184,10 +229,6 @@ angular.module('app.controllers', [])
                 var long = place.geometry.location.lng();
                 console.log(lat + ", " + long);
 
-
-
-                initialize(lat, long);
-                getDefaultList(lat, long);
             });
 
             var options = {
@@ -197,13 +238,13 @@ angular.module('app.controllers', [])
             };
 
             function success(pos) {
-                var crd = pos.coords;
+              var crd = pos.coords;
 
-                initialize(crd.latitude, crd.longitude)
-                // console.log('Your current position is:');
-                // console.log(`Latitude : ${crd.latitude}`);
-                // console.log(`Longitude: ${crd.longitude}`);
-                // console.log(`More or less ${crd.accuracy} meters.`);
+              globalat='40.7127753';
+              gloabalong= '-74.0059728';
+              $scope.getDefaultList('1');
+
+
             }
 
             function error(err) {
@@ -218,19 +259,16 @@ angular.module('app.controllers', [])
                     var place = autocomplete.getPlace();
                     var lat = place.geometry.location.lat();
                     var long = place.geometry.location.lng();
+                    globalat=lat;
+                    gloabalong=long;
                     console.log(lat + ", " + long);
-
-
-
-                    initialize(lat, long);
 
                 });
 
             });
 
-
+            //initialize Map
             function initialize(lat, long) {
-
 
                 var myLatLng = new google.maps.LatLng(lat, long),
                     myOptions = {
@@ -244,44 +282,31 @@ angular.module('app.controllers', [])
                         mapTypeControl: false,
                         streetViewControl: false,
                         defaultStyle: true
-                    },
-                    map = new google.maps.Map(document.getElementById('map-canvas'), myOptions),
-                    marker = new google.maps.Marker({
+                    };
+                  var   map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+                    var marker = new google.maps.Marker({
                         position: myLatLng,
                         map: map
                     });
 
                 marker.setMap(map);
-                moveMarker(map, marker, lat, long);
-
             }
 
 
 
             function moveMarker(map, marker, lat, long) {
-
                 //delayed so you can see it move
                 setTimeout(function() {
-
                     marker.setPosition(new google.maps.LatLng(lat, long));
                     map.panTo(new google.maps.LatLng(lat, long));
-
                 }, 1500);
 
             };
 
+            //Click event on Add Shul button, open Url in InAppBrowser
             $scope.opencustomurl = function() {
-
-                // cordova.InAppBrowser.open(encodeURI(''), '_blank', 'hideurlbar=yes');
                 cordova.InAppBrowser.open(encodeURI('https://www.godaven.com/add-shul'), '_blank', 'zoom=no,hideurlbar=yes,toolbarcolor=#497aa1');
-
             }
-
-          function createPagination (){
-
-          }
-
-
 
         }
     ])
@@ -289,22 +314,47 @@ angular.module('app.controllers', [])
     .controller('SelectedShulCtrl', ['$scope', '$stateParams', 'ApiService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
         // You can include any angular dependencies as parameters for this function
         // TIP: Access Route Parameters for your page via $stateParams.parameterName
-        function($scope, $stateParams, ApiService) {
-
+        function($scope, $stateParams, ApiService, $cordovaGeolocation) {
+            $scope.loading = true; //for spinner
             console.log($stateParams);
 
+            //Website link opens page in InAppBrowser
             $scope.opencustomurldetails = function() {
-
-
                 cordova.InAppBrowser.open(encodeURI($scope.shulDetail.website_url), '_blank', 'zoom=no,hideurlbar=yes,toolbarcolor=#497aa1');
-
             }
 
+            //open directions in google map for defined lat long
             $scope.openmap = function() {
                 var addressLongLat = $scope.shulDetail.lat + ',' + $scope.shulDetail.lng
                 window.open("http://maps.google.com/?q=" + addressLongLat, '_system');
             }
 
+            $scope.$on('$ionicView.loaded', function() {
+
+                    console.log($stateParams.id);
+                      $scope.shulDetail = {};
+                      $scope.groupedContacts = {};
+                      $scope.groupedByDayMinyanim = {};
+
+                      var URL = "https://www.godaven.com/api/V1/shuls/" + $stateParams.id + "/details";
+
+                      ApiService.getRequest(URL).then(function(res) {
+                          $scope.title = res.name;
+                          $scope.shulDetail = res;
+                          console.log(res.lat);
+                          console.log(res.lng);
+                          $scope.groupedContacts = res.groupedContacts;
+                          $scope.groupedByDayMinyanim = res.groupedByDayMinyanim;
+                          initializeMap($scope.shulDetail.lat,$scope.shulDetail.lng);
+                          $scope.loading=false;
+
+                      }).catch(function(err) {
+                          console.log(err);
+                          $scope.loading=false;
+                      })
+            })
+
+            //Share on Social Media
             $scope.shareurl = function() {
 
                 var options = {
@@ -327,25 +377,32 @@ angular.module('app.controllers', [])
 
                 window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
 
-
             }
 
-            console.log($stateParams.id);
-            $scope.shulDetail = {};
-            $scope.groupedContacts = {};
-            $scope.groupedByDayMinyanim = {};
+            //for showing map on screen
+            function initializeMap(lat,long){
+              console.log("fbwskgbewg", lat,long);
+              var myLatLng = new google.maps.LatLng(lat, long),
+                  myOptions = {
 
-            var URL = "https://www.godaven.com/api/V1/shuls/" + $stateParams.id + "/details";
+                      zoom: 16,
+                      center: myLatLng,
+                      mapTypeId: google.maps.MapTypeId.ROADMAP,
+                      panControl: false,
+                      zoomControl: false,
+                      scaleControl: false,
+                      mapTypeControl: false,
+                      streetViewControl: false,
+                      defaultStyle: true
+                  };
+                  var  map = new google.maps.Map(document.getElementById('map-canvass'), myOptions);
+                  var marker = new google.maps.Marker({
+                      position: myLatLng,
+                      map: map
+                  });
 
-            ApiService.getRequest(URL).then(function(res) {
-                console.log(res);
-                $scope.shulDetail = res;
-                $scope.groupedContacts = res.groupedContacts;
-                $scope.groupedByDayMinyanim = res.groupedByDayMinyanim;
-            }).catch(function(err) {
-                console.log(err);
-            })
-
+                  marker.setMap(map);
+            }
         }
     ])
 
