@@ -42,7 +42,7 @@
 
       </ion-item>
     </ion-list>
-    <div class="pagination" ng-if="!loading">
+    <div class="pagination" ng-if="!loading && shulData.total!=0">
       <a >&laquo;</a>
       <button ng-repeat="(key, value) in pageinationlen track by $index" ng-class="{'active':currentPage == $index+1}" ng-click="getDefaultList({{$index+1}})">{{$index+1}} </button>
       <a >&raquo;</a>

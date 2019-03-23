@@ -170,39 +170,66 @@ angular.module('app.controllers', ['ionic'])
                 ApiService.getRequest(Config.BASE_URL + DEFAULT_URL).then(function(res) {
                     console.log(res.total);
                     $scope.shulData = res;
-                    var pagearr=[];
-                    pagearr.length= $scope.shulData.num_of_pages
-                    $scope.pageinationlen=pagearr;
-                    $scope.loading=false;
+                    if(res.total!=0){
+                      var pagearr=[];
+                      pagearr.length= $scope.shulData.num_of_pages
+                      $scope.pageinationlen=pagearr;
+                      $scope.loading=false;
 
 
+                      var myLatLng = new google.maps.LatLng(res.shuls[0].location_point.coordinates[1], res.shuls[0].location_point.coordinates[0]),
+                      myOptions = {
 
-                    var myLatLng = new google.maps.LatLng(res.shuls[0].location_point.coordinates[1], res.shuls[0].location_point.coordinates[0]),
-                    myOptions = {
+                          zoom: 14,
+                          center: myLatLng,
+                          mapTypeId: google.maps.MapTypeId.ROADMAP,
+                          panControl: false,
+                          zoomControl: false,
+                          scaleControl: false,
+                          mapTypeControl: false,
+                          streetViewControl: false,
+                          defaultStyle: true
+                      };
+                      var   map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
 
-                        zoom: 14,
-                        center: myLatLng,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP,
-                        panControl: false,
-                        zoomControl: false,
-                        scaleControl: false,
-                        mapTypeControl: false,
-                        streetViewControl: false,
-                        defaultStyle: true
-                    };
-                    var   map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+                        var marker, i;
+                        setTimeout(function(){
+                        for (i = 0; i < res.shuls.length; i++) {
+                          marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(res.shuls[i].location_point.coordinates[1], res.shuls[i].location_point.coordinates[0]),
+                            map: map
+                          });
 
-                      var marker, i;
-                      setTimeout(function(){
-                      for (i = 0; i < res.shuls.length; i++) {
-                        marker = new google.maps.Marker({
-                          position: new google.maps.LatLng(res.shuls[i].location_point.coordinates[1], res.shuls[i].location_point.coordinates[0]),
-                          map: map
+
+                        }
+                         }, 300);
+                    }else{
+                      $scope.loading=false;
+                      var myLatLng = new google.maps.LatLng(globalat, globalat),
+                      myOptions = {
+
+                          zoom: 14,
+                          center: myLatLng,
+                          mapTypeId: google.maps.MapTypeId.ROADMAP,
+                          panControl: false,
+                          zoomControl: false,
+                          scaleControl: false,
+                          mapTypeControl: false,
+                          streetViewControl: false,
+                          defaultStyle: true
+                      };
+                      var   map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+
+                        var marker, i;
+                        var marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map
                         });
 
+                    marker.setMap(map);
 
-                      }
-                       }, 300);
+                    }
+
 
 
                 }).catch(function(err) {
@@ -212,8 +239,9 @@ angular.module('app.controllers', ['ionic'])
 
             }
 
-            var input = document.getElementById('searchTextField');
 
+
+            var input = document.getElementById('searchTextField');
             var defaultBounds = new google.maps.LatLngBounds(
                 new google.maps.LatLng(-33.8902, 151.1759),
                 new google.maps.LatLng(-33.8474, 151.2631));
@@ -225,11 +253,19 @@ angular.module('app.controllers', ['ionic'])
             google.maps.event.addDomListener(autocomplete, 'place_changed', function() {
 
                 var place = autocomplete.getPlace();
-                var lat = place.geometry.location.lat();
-                var long = place.geometry.location.lng();
-                console.log(lat + ", " + long);
+                console.log(place.geometry);
+                if(place.geometry){
+                  globalat = place.geometry.location.lat();
+                  gloabalong = place.geometry.location.lng();
+                  console.log(globalat + ", " + gloabalong);
+                  $scope.getDefaultList(1);
+                }
+
 
             });
+
+
+
 
             var options = {
                 enableHighAccuracy: true,
@@ -252,20 +288,20 @@ angular.module('app.controllers', ['ionic'])
             }
 
             navigator.geolocation.getCurrentPosition(success, error, options);
-            google.maps.event.addDomListener(document.getElementById("searchTextField"), 'blur', function() {
+            // google.maps.event.addDomListener(document.getElementById("searchTextField"), 'blur', function() {
+            //
+            //     google.maps.event.trigger(autocomplete, 'place_changed', function() {
+            //       console.log("wivfejriv");
+            //         var place = autocomplete.getPlace();
+            //         var lat = place.geometry.location.lat();
+            //         var long = place.geometry.location.lng();
+            //         globalat=lat;
+            //         gloabalong=long;
+            //         console.log(lat + ", " + long);
+            //
+            //     });
 
-                google.maps.event.trigger(autocomplete, 'place_changed', function() {
-
-                    var place = autocomplete.getPlace();
-                    var lat = place.geometry.location.lat();
-                    var long = place.geometry.location.lng();
-                    globalat=lat;
-                    gloabalong=long;
-                    console.log(lat + ", " + long);
-
-                });
-
-            });
+          //  });
 
             //initialize Map
             function initialize(lat, long) {
